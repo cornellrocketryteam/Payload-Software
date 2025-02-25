@@ -26,13 +26,13 @@ add_executable(${PROJECT_NAME}
     src/main.cpp
 )
 
-include_directories(${PROJECT_SOURCE_DIR}/GAP_Advertisment)
+include_directories(${PROJECT_SOURCE_DIR}/GAP_Advertisement)
 
 # Add the standard include files to the build
 target_include_directories(PAYLOAD PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}
+    ${CMAKE_CURRENT_LIST_DIR}
+    ${CMAKE_CURRENT_LIST_DIR}/GAP_Advertisement
 )
-
 # Pull in common dependencies
 target_link_libraries(${PROJECT_NAME} 
     pico_stdlib
