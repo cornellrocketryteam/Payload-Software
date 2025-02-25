@@ -22,7 +22,7 @@
 #define MAX_NR_SM_LOOKUP_ENTRIES 3
 #define MAX_NR_WHITELIST_ENTRIES 16
 #define MAX_NR_LE_DEVICE_DB_ENTRIES 16
-#define ENABLE_ATT_DELAYED_RESPONSE //  change - not sure what it does but migth fix everything
+#define ENABLE_ATT_DELAYED_RESPONSE //
 
 // Limit number of ACL/SCO Buffer to use by stack to avoid cyw43 shared bus overrun
 #define MAX_NR_CONTROLLER_ACL_BUFFERS 3
