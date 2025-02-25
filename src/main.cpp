@@ -25,9 +25,7 @@ static btstack_packet_callback_registration_t hci_event_callback_registration;
 int main() {
     stdio_init_all();
 
-    gpio_init(LED);
-    gpio_set_dir(LED, GPIO_OUT);
-    gpio_put(LED, 1);
+    init_pins();
 
     // inform about BTstack state
     hci_event_callback_registration.callback = &packet_handler;
