@@ -50,17 +50,49 @@ public:
 };
 
 /**
- * Prelaunch mode: pump on, vent valves closed
+ * Standby mode: Default mode, all output channels low. 
+ * Waiting for bluetooth signal.
  */
-class Prelaunch : public Mode {
+class Standby : public Mode {
 public:
     void execute();
 
     void transition();
 
-    uint8_t id() { return 0; }
+    uint8_t id() { return 1; }
 
-    std::string name() { return "Prelaunch"; };
+    std::string name() { return "Standby"; };
+
+};
+
+/**
+ * Tminus5 mode: Start Pico timer (to control future transitions). 
+ * Turn nozzle pump output channel high
+ */
+class Tminus5 : public Mode {
+public:
+    void execute();
+
+    void transition();
+
+    uint8_t id() { return 2; }
+
+    std::string name() { return "Tminus5"; };
+    
+};
+
+/**
+ * Tminus2 mode: Turn valve output channel high
+ */
+class Tminus2 : public Mode {
+public:
+    void execute();
+
+    void transition();
+
+    uint8_t id() { return 3; }
+
+    std::string name() { return "Tminus2"; };
 
 };
 
@@ -73,24 +105,24 @@ public:
 
     void transition();
 
-    uint8_t id() { return 2; }
+    uint8_t id() { return 4; }
 
-    std::string name() { return "T+X"; };
+    std::string name() { return "Apogee"; };
 
 };
  
 /**
- * Landing mode
+ * Touchdown mode
  */
-class Landing : public Mode {
+class Touchdown : public Mode {
 public:
     void execute();
 
     void transition();
 
-    uint8_t id() { return 3; }
+    uint8_t id() { return 5; }
 
-    std::string name() { return "T+X+Y"; };
+    std::string name() { return "Touchdown"; };
 }
 
 
