@@ -8,7 +8,7 @@ set(PICO_BOARD pico_w CACHE STRING "Board type")
 # Pull in SDK (must be before project)
 include(lib/pico-sdk/pico_sdk_init.cmake)
 
-project(PAYLOAD C CXX ASM) #WHAT DOES CXX ASM MEAN
+project(PAYLOAD C CXX ASM) 
 
 # Initialize the SDK
 pico_sdk_init()
@@ -24,6 +24,7 @@ add_compile_options(
 # Add all executables
 add_executable(${PROJECT_NAME}
     src/main.cpp
+    src/pins.cpp
 )
 
 include_directories(${PROJECT_SOURCE_DIR}/GAP_Advertisement)

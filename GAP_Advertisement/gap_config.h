@@ -2,6 +2,7 @@
 #define GAP_CONFIG_H
 
 #include <stdio.h>
+#include <cstdio>
 #include "btstack.h"
 //#include "ble_gap.h"
 
@@ -30,9 +31,9 @@ void packet_handler(uint8_t packet_type, uint16_t channel, uint8_t *packet, uint
     switch(event_type){
         // Setup GAP advertisement
         case BTSTACK_EVENT_STATE:{
-            if (btstack_event_state_get_state(packet) != HCI_STATE_WORKING) return; //check HCI_STATE_ name 
+            if (btstack_event_state_get_state(packet) != HCI_STATE_WORKING) return;
             gap_local_bd_addr(local_addr);
-            //printf("BTstack up and running on %s.\n", bd_addr_to_str(local_addr));
+            printf("BTstack up and running on %s.\n", bd_addr_to_str(local_addr));
             // setup advertisements
             uint16_t adv_int_min = 320; //what interval do I need??
             uint16_t adv_int_max = 320;
@@ -51,33 +52,35 @@ void packet_handler(uint8_t packet_type, uint16_t channel, uint8_t *packet, uint
             break;
         // Ready to send ATT
         case ATT_EVENT_CAN_SEND_NOW:
+        printf("disconnected\n");
+        case HCI_EVENT_LE_META:{ //for logging connection
+            uint8_t subevent_code = hci_event_le_meta_get_subevent_code(packet);
+            switch (subevent_code) {
+                case HCI_SUBEVENT_LE_CONNECTION_COMPLETE: {
+                    // use macros to parse fields
+                    uint8_t status = hci_subevent_le_connection_complete_get_status(packet);
+                    if (status == ERROR_CODE_SUCCESS){
+                        printf("Connection complete\n");
+                        // uint16_t conn_handle = hci_subevent_le_connection_complete_get_connection_handle(packet);
+
+                        // bd_addr_t peer_addr;
+                        // reverse_bd_addr(hci_subevent_le_connection_complete_get_peer_address(packet), peer_addr); //check error
+
+                        // uint8_t role = hci_subevent_le_connection_complete_get_role(packet);
+                        // uint8_t peer_addr_type = hci_subevent_le_connection_complete_get_peer_address_type(packet);
+
+                        // log to sd card
+
+                    } else {
+                        // connection failed, log sd card?
+                    }
+                    break;
+                }
+                default:
+                    break;
+            }
             break;
-        // case HCI_EVENT_LE_META: //for logging connection
-        //     uint8_t subevent_code = hci_event_le_meta_get_subevent_code(packet);
-        //     switch (subevent_code) {
-        //         case HCI_SUBEVENT_LE_CONNECTION_COMPLETE: 
-        //             // use macros to parse fields
-        //             uint8_t status = hci_subevent_le_connection_complete_get_status(packet);
-        //             if (status == ERROR_CODE_SUCCESS){
-        //                 uint16_t conn_handle = hci_subevent_le_connection_complete_get_connection_handle(packet);
-
-        //                 bd_addr_t peer_addr;
-        //                 reverse_bd_addr(hci_subevent_le_connection_complete_get_peer_address(packet), peer_addr); //check error
-
-        //                 uint8_t role = hci_subevent_le_connection_complete_get_role(packet);
-        //                 uint8_t peer_addr_type = hci_subevent_le_connection_complete_get_peer_address_type(packet);
-
-        //                 // log to sd card
-
-        //             } else {
-        //                 // connection failed, log sd card?
-        //             }
-        //             break;
-                
-        //         default:
-        //             break;
-        //     }
-        //     break;
+        }
         default:
             break;
     }

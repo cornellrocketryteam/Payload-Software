@@ -65,24 +65,9 @@ public:
 };
 
 /**
- * AtLaunch mode: valves open
+ * Apogee mode
  */
-class AtLaunch : public Mode {
-public:
-    void execute();
-
-    void transition();
-
-    uint8_t id() { return 1; }
-
-    std::string name() { return "AtLaunch"; };
-
-};
-
-/**
- * T+X mode
- */
-class TPlusX : public Mode {
+class Apogee : public Mode {
 public:
     void execute();
 
@@ -95,9 +80,9 @@ public:
 };
  
 /**
- * T+X+Y
+ * Landing mode
  */
-class TPlusXY : public Mode {
+class Landing : public Mode {
 public:
     void execute();
 

@@ -21,22 +21,30 @@
 // BTstack objects
 static btstack_packet_callback_registration_t hci_event_callback_registration;
 
-
 int main() {
     stdio_init_all();
 
     init_pins();
+    printf("pins initialised\n");
+
+    if (cyw43_arch_init()) {
+        printf("Wi-Fi init failed\n");
+        return -1;
+    }
+
+    // Initialize L2CAP and security manager
+    //sm_init();
 
     // inform about BTstack state
     hci_event_callback_registration.callback = &packet_handler;
     hci_add_event_handler(&hci_event_callback_registration);
 
-    // turn on bluetooth!
+    // // turn on bluetooth!
     hci_power_control(HCI_POWER_ON);
 
     while (true) {
         printf("Hello, world!\n");
-        sleep_ms(1000);
+        sleep_ms(5000);
     }
 
     return 0;
