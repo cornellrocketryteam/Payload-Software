@@ -8,6 +8,8 @@
 
 #define APP_AD_FLAGS 0x06 // 0x06 = General discoverable, BR/EDR not supported
 
+extern bool ble_connected;
+
 static uint8_t adv_data[] = {
     // Flags
     0x02, BLUETOOTH_DATA_TYPE_FLAGS, APP_AD_FLAGS,
@@ -18,7 +20,7 @@ static uint8_t adv_data[] = {
 };
 static const uint8_t adv_data_len = sizeof(adv_data);
 
-void packet_handler(uint8_t packet_type, uint16_t channel, uint8_t *packet, uint16_t size) {
+static void packet_handler(uint8_t packet_type, uint16_t channel, uint8_t *packet, uint16_t size) {
     UNUSED(size);
     UNUSED(channel);
     bd_addr_t local_addr;
@@ -60,6 +62,7 @@ void packet_handler(uint8_t packet_type, uint16_t channel, uint8_t *packet, uint
                     // use macros to parse fields
                     uint8_t status = hci_subevent_le_connection_complete_get_status(packet);
                     if (status == ERROR_CODE_SUCCESS){
+                        ble_connected = true;
                         printf("Connection complete\n");
                         // uint16_t conn_handle = hci_subevent_le_connection_complete_get_connection_handle(packet);
 

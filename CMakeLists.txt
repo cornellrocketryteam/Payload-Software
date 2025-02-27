@@ -25,6 +25,7 @@ add_compile_options(
 add_executable(${PROJECT_NAME}
     src/main.cpp
     src/pins.cpp
+    src/mode.cpp
 )
 
 include_directories(${PROJECT_SOURCE_DIR}/GAP_Advertisement)
