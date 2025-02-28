@@ -1,5 +1,8 @@
-# Pico Project Template
-As a demo, the code in this template simply turns on the onboard LED and continously prints "Hello, world!" to serial.
+# Payload Software
+This project provides software support to the '24/'25 Air Sampler Payload. There are 3 main functions:
+1. Controls 5 GPIO pins
+2. Initiates sequence of commands based on BLE command from fill-station
+3. Logs sequence of operation to SD Card
 
 ## How to Use
 
