@@ -26,7 +26,11 @@ add_executable(${PROJECT_NAME}
     src/main.cpp
     src/pins.cpp
     src/mode.cpp
+    src/sd.cpp
+    src/hw_config.cpp
 )
+
+add_subdirectory(${PROJECT_SOURCE_DIR}/lib/no-OS-FatFS-SD-SDIO-SPI-RPi-Pico/src build)
 
 include_directories(${PROJECT_SOURCE_DIR}/GAP_Advertisement)
 
@@ -41,6 +45,7 @@ target_link_libraries(${PROJECT_NAME}
     pico_btstack_ble
     pico_btstack_cyw43
     pico_cyw43_arch_none
+    no-OS-FatFS-SD-SDIO-SPI-RPi-Pico 
 )
 
 # Enable serial over USB

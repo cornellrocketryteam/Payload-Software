@@ -11,6 +11,7 @@
 #include "mode.hpp"
 #include "constants.hpp"
 #include "hardware/watchdog.h"
+#include "sd.hpp"
 
 #include "pico/stdlib.h"
 #include "pico/cyw43_arch.h"
@@ -36,6 +37,12 @@ int main() {
 
     init_pins();
     printf("pins initialised\n");
+
+    // Initialize SD card
+    printf("Initializing SD card...\n");
+    if (!sd_card.begin()) {
+        printf("Warning: SD card initialization failed\n");
+    }
 
     // inform about BTstack state
     hci_event_callback_registration.callback = &packet_handler;

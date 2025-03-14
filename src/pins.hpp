@@ -16,6 +16,13 @@
 #define ANALYSIS_OUT_1 27
 #define ANALYSIS_OUT_2 28
 
+#define SD_SCK 2
+#define SD_CMD 3
+#define SD_D0 4
+#define SD_D1 5
+#define SD_D2 6
+#define SD_D3 7
+
 /**
  * Initializes all GPIO, I2C, SPI, UART, and PWM pins
  */

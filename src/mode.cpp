@@ -12,6 +12,7 @@
 // #include "hardware/clocks.h"
 #include "pico/stdlib.h"
 #include "constants.hpp"
+#include "sd.hpp"
 
 #include "gap_config.h"
 
@@ -70,6 +71,15 @@ void Mode::to_mode(Mode *mode) {
            current_mode ? current_mode->name().c_str() : "None", 
            mode->name().c_str(),
            run_time_ms);
+
+    // Log to SD card if available
+    if (current_mode) {
+        sd_card.log_transition(current_mode->name(), mode->name(), 
+                                run_time_ms);
+    } else {
+        sd_card.log_transition("None", mode->name(), 
+                                run_time_ms);
+    }
     
     // Update the current mode
     if (current_mode != nullptr && current_mode != mode) {
