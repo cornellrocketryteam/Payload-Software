@@ -1,0 +1,10 @@
+
+// PAYLOAD BLE GATT Service
+
+// Primary Service Declaration for payload software
+PRIMARY_SERVICE, FF10
+
+// Timestamp Characteristic - Writing to this also triggers start
+CHARACTERISTIC, FF11, WRITE_WITHOUT_RESPONSE | WRITE, 
+// Define readable name for the characteristic
+CHARACTERISTIC_USER_DESCRIPTION, "Timestamp"

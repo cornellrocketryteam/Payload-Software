@@ -52,7 +52,7 @@
      }
      
      // Write headers
-     const char* headers = "unix_timestamp,system_time_ms,from_mode,to_mode,notes\n";
+     const char* headers = "system_time_ms,from_mode,to_mode,notes\n";
      if (f_printf(&log_file, headers) < 0) {
          printf("SD Write Error\n");
          f_close(&log_file);
@@ -63,8 +63,8 @@
      return true;
  }
  
- bool SD::log_transition(const std::string& from_mode, const std::string& to_mode, 
-                       uint32_t time_ms) {
+ bool SD::log_transition(uint32_t time_ms,const std::string& from_mode, const std::string& to_mode
+                       ) {
      if (!initialized) {
          printf("SD card not initialized\n");
          return false;
@@ -79,7 +79,7 @@
      }
      
      // Format: timestamp,system_time,from_mode,to_mode,notes
-     int result = f_printf(&log_file, "%u,%u,%s,%s,mode_transition\n", 
+     int result = f_printf(&log_file, "%u,%s,%s,mode_transition\n", 
                             time_ms, from_mode.c_str(), to_mode.c_str());
      
      f_close(&log_file);

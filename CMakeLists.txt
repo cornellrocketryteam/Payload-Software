@@ -38,6 +38,7 @@ include_directories(${PROJECT_SOURCE_DIR}/GAP_Advertisement)
 target_include_directories(PAYLOAD PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}
     ${CMAKE_CURRENT_LIST_DIR}/GAP_Advertisement
+    ${CMAKE_CURRENT_LIST_DIR}/GATT_Service
 )
 # Pull in common dependencies
 target_link_libraries(${PROJECT_NAME} 
@@ -51,6 +52,8 @@ target_link_libraries(${PROJECT_NAME}
 # Enable serial over USB
 pico_enable_stdio_usb(${PROJECT_NAME} 1)
 pico_enable_stdio_uart(${PROJECT_NAME} 0)
+
+pico_btstack_make_gatt_header(PAYLOAD PRIVATE "${CMAKE_CURRENT_LIST_DIR}/GATT_Service/PAYLOAD.gatt")
 
 # Create uf2 file
 pico_add_uf2_output(${PROJECT_NAME}) #pico_add_extra_outputs(SRAD_RT) ?? which one? both?

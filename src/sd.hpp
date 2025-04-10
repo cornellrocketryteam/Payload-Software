@@ -25,8 +25,8 @@ public:
     /**
      * Logs a mode transition event to the SD card.
      */
-    bool log_transition(const std::string& from_mode, const std::string& to_mode, 
-                        uint32_t time_ms);
+    bool log_transition(uint32_t time_ms, const std::string& from_mode, const std::string& to_mode 
+                        );
     
     /**
      * Closes any open files and unmounts the SD card.

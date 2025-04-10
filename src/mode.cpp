@@ -23,6 +23,8 @@ Mode* current_mode = nullptr;
 volatile uint32_t run_time_ms = 0;
 bool sequence_running = false;
 
+extern bool ble_start_command_received;
+
 // Hardware timer alarm ID
 #define SEQUENCE_TIMER_ALARM 0
 
@@ -74,11 +76,11 @@ void Mode::to_mode(Mode *mode) {
 
     // Log to SD card if available
     if (current_mode) {
-        sd_card.log_transition(current_mode->name(), mode->name(), 
-                                run_time_ms);
+        sd_card.log_transition(run_time_ms,current_mode->name(), mode->name() 
+                                );
     } else {
-        sd_card.log_transition("None", mode->name(), 
-                                run_time_ms);
+        sd_card.log_transition(run_time_ms,"None", mode->name()
+                                );
     }
     
     // Update the current mode
@@ -107,7 +109,11 @@ void Standby::execute() {
 void Standby::transition() {
     // printf("transition from standby called\n");
     // Check if it's time to transition to Tminus5
-    if ( ble_connected) {
+    if (ble_start_command_received) {
+        // Reset the flag
+        ble_start_command_received = false;
+        
+        // Transition to Tminus5
         to_mode(new Tminus5());
     }
 }

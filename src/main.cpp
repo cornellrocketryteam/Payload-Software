@@ -21,11 +21,14 @@
 #include "btstack.h"
 
 #include "gap_config.h"
+#include "service_implementation.h"  // Include the simplified GATT service
 
 // BTstack objects
 static btstack_packet_callback_registration_t hci_event_callback_registration;
 
-bool ble_connected = false;
+bool ble_start_command_received = false;
+
+extern void packet_handler(uint8_t packet_type, uint16_t channel, uint8_t *packet, uint16_t size);
 
 int main() {
     stdio_init_all();
@@ -48,15 +51,20 @@ int main() {
     hci_event_callback_registration.callback = &packet_handler;
     hci_add_event_handler(&hci_event_callback_registration);
 
+    att_server_register_packet_handler(payload_packet_handler);
+
     // // turn on bluetooth!
     hci_power_control(HCI_POWER_ON);
+    sleep_ms(100);
+
+    payload_service_init();
 
     //watchdog_enable(constants::watchdog_delay, true);
 
     // Start in standby mode
     current_mode = new Standby();
     current_mode->execute();  
-    // printf("System initialized in Standby mode\n");
+    printf("System initialized in Standby mode\n");
 
     while (true) {
         // printf("Hello, world!\n");
@@ -69,9 +77,9 @@ int main() {
 
         
         cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
-        sleep_ms(200);
+        sleep_ms(100);
         cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
-        sleep_ms(200);
+        sleep_ms(100);
         
         // Small delay to avoid consuming too much CPU
         // This delay is not critical for timing accuracy 
