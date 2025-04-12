@@ -21,11 +21,14 @@
 #include "btstack.h"
 
 #include "gap_config.h"
+#include "service_implementation.h"
 
 // BTstack objects
 static btstack_packet_callback_registration_t hci_event_callback_registration;
 
-bool ble_connected = false;
+// Actually instantiate them:
+bool ble_start_command_received = false;
+uint32_t received_timestamp     = 0;
 
 int main() {
     stdio_init_all();
@@ -50,6 +53,8 @@ int main() {
 
     // // turn on bluetooth!
     hci_power_control(HCI_POWER_ON);
+    sleep_ms(100);
+    init_gatt_service();
 
     //watchdog_enable(constants::watchdog_delay, true);
 

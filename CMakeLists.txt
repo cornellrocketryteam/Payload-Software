@@ -38,7 +38,16 @@ include_directories(${PROJECT_SOURCE_DIR}/GAP_Advertisement)
 target_include_directories(PAYLOAD PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}
     ${CMAKE_CURRENT_LIST_DIR}/GAP_Advertisement
+    ${CMAKE_CURRENT_LIST_DIR}/GATT_Service
 )
+
+# Compile the .gatt into a header file
+pico_btstack_make_gatt_header(
+    PAYLOAD                         # The target name for your GATT
+    PRIVATE 
+    "${CMAKE_CURRENT_LIST_DIR}/GATT_Service/PAYLOAD.gatt"
+)
+
 # Pull in common dependencies
 target_link_libraries(${PROJECT_NAME} 
     pico_stdlib

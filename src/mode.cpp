@@ -15,6 +15,7 @@
 #include "sd.hpp"
 
 #include "gap_config.h"
+#include "service_implementation.h"
 
 // Define the current mode pointer
 Mode* current_mode = nullptr;
@@ -107,7 +108,8 @@ void Standby::execute() {
 void Standby::transition() {
     // printf("transition from standby called\n");
     // Check if it's time to transition to Tminus5
-    if ( ble_connected) {
+    if (ble_start_command_received) {
+        ble_start_command_received = false;
         to_mode(new Tminus5());
     }
 }

@@ -62,7 +62,6 @@ static void packet_handler(uint8_t packet_type, uint16_t channel, uint8_t *packe
                     // use macros to parse fields
                     uint8_t status = hci_subevent_le_connection_complete_get_status(packet);
                     if (status == ERROR_CODE_SUCCESS){
-                        ble_connected = true;
                         printf("Connection complete\n");
                         // uint16_t conn_handle = hci_subevent_le_connection_complete_get_connection_handle(packet);
 
