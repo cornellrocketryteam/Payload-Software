@@ -33,7 +33,9 @@ static inline uint16_t gatt_read_callback(hci_con_handle_t con_handle,
     uint16_t offset,
     uint8_t * buffer,
     uint16_t buffer_size)
-{
+    
+{   
+    printf("GATT read callback triggered\n");
     UNUSED(con_handle);
     UNUSED(att_handle);
     UNUSED(offset);
@@ -54,13 +56,11 @@ static inline int gatt_write_callback(hci_con_handle_t con_handle,
                         uint8_t * buffer,
                         uint16_t buffer_size)
 {
+    printf("GATT write callback triggered\n");
     UNUSED(con_handle);
     UNUSED(transaction_mode);
     UNUSED(offset);
 
-    // The handle for your single characteristic is in PAYLOAD.h, 
-    // typically something like PAYLOAD_CHARACTERISTIC_0_0_VALUE_HANDLE 
-    // or ATT_CHARACTERISTIC_XXXXX_XXXX_VALUE_HANDLE. Adjust accordingly:
     if (att_handle == ATT_CHARACTERISTIC_0xFF11_01_VALUE_HANDLE) {
         if (buffer_size >= 4) {
             // Parse a 32-bit timestamp
@@ -78,7 +78,7 @@ static inline int gatt_write_callback(hci_con_handle_t con_handle,
 static inline void init_gatt_service(void) {
     // Make sure PAYLOAD_gatt_database and PAYLOAD_gatt_database_len exist 
     // in the auto-generated file from your .gatt. 
-    att_server_init((uint8_t*) profile_data,
+    att_server_init(profile_data,
     &gatt_read_callback,
     &gatt_write_callback);
 
